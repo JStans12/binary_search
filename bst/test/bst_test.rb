@@ -3,6 +3,7 @@ require './lib/node.rb'
 require "minitest/autorun"
 require "minitest/pride"
 require 'pry'
+require 'CSV'
 
 class BinarySearchTest < Minitest::Test
 
@@ -276,6 +277,20 @@ end
     tree = BinarySearchTree.new
 
     assert_equal tree.sort, []
+  end
+
+  ### load
+
+  def test_load
+    tree = BinarySearchTree.new
+    tree.load("test/movies.txt")
+
+    assert_equal tree.root.data, {"Hannibal Buress: Comedy Camisado" => 34}
+    assert_equal tree.root.right.data, {"Meet My Valentine" => 63}
+    assert_equal tree.root.left.data, {"Experimenter" => 22}
+    assert_equal tree.root.right.right.data, {"French Dirty" => 84}
+    assert_equal tree.root.right.left.data, {"Love" => 41}
+    assert_equal tree.root.left.left.data, {"I Love You Phillip Morris" => 10}
   end
 
 end # end tests
