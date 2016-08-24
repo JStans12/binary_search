@@ -103,6 +103,35 @@ class BinarySearchTest < Minitest::Test
     refute tree.include?(15)
   end
 
+  def test_include_a_lot
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+    tree.insert_node(45, "avitar")
+    tree.insert_node(55, "dig")
+    tree.insert_node(60, "the hobbit")
+    tree.insert_node(11, "star wars")
+    tree.insert_node(85, "mad max")
+    tree.insert_node(53, "i robot")
+    tree.insert_node(12, "sharknado")
+    tree.insert_node(54, "fire walk with me")
+    tree.insert_node(59, "cry baby")
+    tree.insert_node(47, "the shining")
+    tree.insert_node(46, "momento")
+
+    assert tree.include?(50)
+    assert tree.include?(45)
+    assert tree.include?(55)
+    assert tree.include?(60)
+    assert tree.include?(11)
+    assert tree.include?(85)
+    assert tree.include?(53)
+    assert tree.include?(12)
+    assert tree.include?(54)
+    assert tree.include?(59)
+    assert tree.include?(47)
+    assert tree.include?(46)
+end
+
   ### depth_of
 
   def test_depth_of_on_root
@@ -133,6 +162,8 @@ class BinarySearchTest < Minitest::Test
     assert_equal tree.depth_of(88), nil
   end
 
+  ### max
+
   def test_max_at_root
     tree = BinarySearchTree.new
     tree.insert_node(50, "james bond")
@@ -152,6 +183,8 @@ class BinarySearchTest < Minitest::Test
 
     assert_equal tree.max, {"mad max" => 85}
   end
+
+  ### min
 
   def test_min_at_root
     tree = BinarySearchTree.new
@@ -173,21 +206,21 @@ class BinarySearchTest < Minitest::Test
     assert_equal tree.min, {"star wars" => 11}
   end
 
+  ### sort
+
   def test_sort_for_one_node
     tree = BinarySearchTree.new
     tree.insert_node(50, "james bond")
-    tree.sort
 
-    assert_equal tree.sorted, [{"james bond" => 50}]
+    assert_equal tree.sort, [{"james bond" => 50}]
   end
 
   def test_sort_to_the_right
     tree = BinarySearchTree.new
     tree.insert_node(45, "avitar")
     tree.insert_node(50, "james bond")
-    tree.sort
 
-    assert_equal tree.sorted, [{"avitar" => 45}, {"james bond" => 50}]
+    assert_equal tree.sort, [{"avitar" => 45}, {"james bond" => 50}]
   end
 
   def test_sort_left_backtrack
@@ -195,9 +228,8 @@ class BinarySearchTest < Minitest::Test
     tree.insert_node(50, "james bond")
     tree.insert_node(45, "avitar")
     tree.insert_node(11, "star wars")
-    tree.sort
 
-    assert_equal tree.sorted, [{"star wars" => 11}, {"avitar" => 45}, {"james bond" => 50}]
+    assert_equal tree.sort, [{"star wars" => 11}, {"avitar" => 45}, {"james bond" => 50}]
   end
 
   def test_sort_left_and_right
@@ -205,9 +237,8 @@ class BinarySearchTest < Minitest::Test
     tree.insert_node(50, "james bond")
     tree.insert_node(45, "avitar")
     tree.insert_node(55, "dig")
-    tree.sort
 
-    assert_equal tree.sorted, [{"avitar" => 45}, {"james bond" => 50}, {"dig" => 55}]
+    assert_equal tree.sort, [{"avitar" => 45}, {"james bond" => 50}, {"dig" => 55}]
   end
 
   def test_sort_does_this_actually_work_wtf
@@ -219,9 +250,8 @@ class BinarySearchTest < Minitest::Test
     tree.insert_node(11, "star wars")
     tree.insert_node(85, "mad max")
     tree.insert_node(53, "i robot")
-    tree.sort
 
-    assert_equal tree.sorted, [{"star wars" => 11}, {"avitar" => 45}, {"james bond" => 50}, {"i robot" => 53}, {"dig" => 55}, {"the hobbit" => 60}, {"mad max" => 85}]
+    assert_equal tree.sort, [{"star wars" => 11}, {"avitar" => 45}, {"james bond" => 50}, {"i robot" => 53}, {"dig" => 55}, {"the hobbit" => 60}, {"mad max" => 85}]
   end
 
   def test_sort_this_cannot_possibly_be_the_answer
@@ -238,9 +268,14 @@ class BinarySearchTest < Minitest::Test
     tree.insert_node(59, "cry baby")
     tree.insert_node(47, "the shining")
     tree.insert_node(46, "momento")
-    tree.sort
 
-    assert_equal tree.sorted, [{"star wars" => 11}, {"sharknado" => 12}, {"avitar" => 45}, {"momento" => 46}, {"the shining" => 47}, {"james bond" => 50}, {"i robot" => 53}, {"fire walk with me" => 54}, {"dig" => 55}, {"cry baby" => 59}, {"the hobbit" => 60}, {"mad max" => 85}]
+    assert_equal tree.sort, [{"star wars" => 11}, {"sharknado" => 12}, {"avitar" => 45}, {"momento" => 46}, {"the shining" => 47}, {"james bond" => 50}, {"i robot" => 53}, {"fire walk with me" => 54}, {"dig" => 55}, {"cry baby" => 59}, {"the hobbit" => 60}, {"mad max" => 85}]
+  end
+
+  def test_sort_nothing
+    tree = BinarySearchTree.new
+
+    assert_equal tree.sort, []
   end
 
 end # end tests
