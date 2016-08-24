@@ -20,7 +20,7 @@ class BinarySearchTree
 
     # if this is the first node
     if @root == nil
-      @root = Node.new(input_score, input_movie, 0)
+      @root = Node.new(input_score, input_movie)
       return 0
     else
 
@@ -30,7 +30,7 @@ class BinarySearchTree
       # insert node on the left or move to the left
       if input_score < current_node.score
         if current_node.left == nil
-          current_node.left = Node.new(input_score, input_movie, depth)
+          current_node.left = Node.new(input_score, input_movie)
           return depth
         else
           self.insert_node(input_score, input_movie, current_node.left, depth + 1)
@@ -39,7 +39,7 @@ class BinarySearchTree
       # insert node on the right or move to the right
       else
         if current_node.right == nil
-          current_node.right = Node.new(input_score, input_movie, depth)
+          current_node.right = Node.new(input_score, input_movie)
           return depth
         else
           self.insert_node(input_score, input_movie, current_node.right, depth + 1)
@@ -89,9 +89,7 @@ class BinarySearchTree
   end # end include?
 
 
-  # depth_of uses the @depth instance variable in node objects
-  # it still needs to navigate the tree to find the matching node
-  def depth_of(input_score, current_node = @root)
+  def depth_of(input_score, current_node = @root, depth = 0)
 
     # if the input_score doesn't exist in the tree
     if current_node == nil
@@ -100,14 +98,14 @@ class BinarySearchTree
 
       # return depth when found
       if input_score == current_node.score
-        return current_node.depth
+        return depth
 
       # move right or left to find just like include?
       elsif input_score < current_node.score
-        self.depth_of(input_score, current_node.left)
+        self.depth_of(input_score, current_node.left, depth + 1)
 
       elsif input_score > current_node.score
-        self.depth_of(input_score, current_node.right)
+        self.depth_of(input_score, current_node.right, depth + 1)
 
       end
     end
@@ -117,7 +115,7 @@ class BinarySearchTree
   def max(current_node = @root)
 
     if current_node.right == nil
-      return {current_node.movie => current_node.score}
+      return current_node.data
     else
       max(current_node.right)
     end
@@ -128,7 +126,7 @@ class BinarySearchTree
   def min(current_node = @root)
 
     if current_node.left == nil
-      return {current_node.movie => current_node.score}
+      return current_node.data
     else
       min(current_node.left)
     end
@@ -147,18 +145,18 @@ class BinarySearchTree
 
     return @sorted if @root == nil
 
-    if current_node.left != nil && @sorted.include?({current_node.left.movie => current_node.left.movie}) == false
+    if current_node.left != nil && @sorted.include?(current_node.left.data) == false
       sort(current_node.left)
 
-      if @sorted.include?({current_node.movie => current_node.score}) == false
-        @sorted << {current_node.movie => current_node.score}
+      if @sorted.include?(current_node.data) == false
+        @sorted << current_node.data
       end
 
     else
-      @sorted << {current_node.movie => current_node.score}
+      @sorted << current_node.data
     end
 
-    if current_node.right != nil && @sorted.include?({current_node.right.movie => current_node.right.movie}) == false
+    if current_node.right != nil && @sorted.include?(current_node.right.data) == false
       sort(current_node.right)
     end
 

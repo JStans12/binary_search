@@ -1,13 +1,15 @@
 class Node
-  attr_reader :score, :movie
-  attr_accessor :left, :right, :depth
+  attr_reader :data
+  attr_accessor :left, :right
 
-  def initialize(score, movie, depth = 0)
-    @score = score
-    @movie = movie
+  def initialize(score, movie)
+    @data = {movie => score}
     @left = left
     @right = right
-    @depth = depth
+  end
+
+  def score
+    @data.values[0]
   end
 
 end
