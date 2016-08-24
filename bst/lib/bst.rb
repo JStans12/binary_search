@@ -3,12 +3,12 @@
 # users don't interact with nodes, they interact with the tree.
 
 class BinarySearchTree
-  attr_reader :root
-  attr_accessor :sorted
+  attr_reader :root, :sorted
 
   def initialize(root = nil, sorted = [])
     @root = root
     @sorted = sorted
+    @health = []
   end
 
   # the insert_node method is where the tree is built.
@@ -168,7 +168,48 @@ class BinarySearchTree
     end
   end
 
-  def health()
-  end
+
+  def health(input_depth, current_node = @root, current_depth = 0, first_run = true)
+
+    # this block resets the @health array every time the method is called.
+    # that way we can run multiple tests on it at once.
+    if first_run == true
+      @health = []
+      first_run = false
+    end
+
+
+    if current_depth == input_depth
+      group_count = node_group_count(current_node)
+      @health << [current_node.score, group_count, 100*group_count/self.sort.length]
+    else
+
+      self.health(input_depth, current_node.left, current_depth + 1, false) if current_node.left != nil
+      self.health(input_depth, current_node.right, current_depth + 1, false) if current_node.right != nil
+
+      @health
+    end
+
+  end # end health
+
+  # gets a count of all the nodes below the input node
+  # used for health method
+  def node_group_count(current_node, first_run = true)
+    @group_count = 0 if first_run == true
+    first_run = false
+
+    @group_count += 1
+
+    if current_node.left != nil
+      node_group_count(current_node.left, @group_count)
+    end
+
+    if current_node.right != nil
+      node_group_count(current_node.right, @group_count)
+    end
+
+    @group_count
+
+  end # end node_group_count
 
 end # end BinarySearchTree

@@ -1,7 +1,7 @@
 require './lib/bst.rb'
 require './lib/node.rb'
-require "minitest/autorun"
-require "minitest/pride"
+require 'minitest/autorun'
+require 'minitest/pride'
 require 'pry'
 require 'CSV'
 
@@ -291,6 +291,48 @@ end
     assert_equal tree.root.right.right.data, {"French Dirty" => 84}
     assert_equal tree.root.right.left.data, {"Love" => 41}
     assert_equal tree.root.left.left.data, {"I Love You Phillip Morris" => 10}
+  end
+
+  ### health
+
+  def test_health_at_root
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+
+    assert_equal tree.health(0), [[50,1,100]]
+  end
+
+  def test_node_group_count
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+    tree.insert_node(45, "avitar")
+    tree.insert_node(55, "dig")
+    tree.insert_node(60, "the hobbit")
+    tree.insert_node(11, "star wars")
+
+    assert_equal tree.node_group_count(tree.root), 5
+  end
+
+  def test_healthy_as_fuck
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+    tree.insert_node(45, "avitar")
+    tree.insert_node(55, "dig")
+    tree.insert_node(60, "the hobbit")
+    tree.insert_node(11, "star wars")
+    tree.insert_node(85, "mad max")
+    tree.insert_node(53, "i robot")
+    tree.insert_node(12, "sharknado")
+    tree.insert_node(54, "fire walk with me")
+    tree.insert_node(59, "cry baby")
+    tree.insert_node(47, "the shining")
+    tree.insert_node(46, "momento")
+
+    assert_equal tree.health(0), [[50,12,100]]
+    assert_equal tree.health(1), [[45, 5, 38], [55, 6, 42]]
+    assert_equal tree.health(2), [[11, 2, 13], [47, 2, 12], [53, 2, 11], [60, 3, 16]]
+    assert_equal tree.health(3), [[12, 1, 5], [46, 1, 5], [54, 1, 4], [59, 1, 4], [85, 1, 4]]
+    assert_equal tree.health(4), []
   end
 
 end # end tests
