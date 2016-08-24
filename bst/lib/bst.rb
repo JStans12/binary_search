@@ -201,15 +201,33 @@ class BinarySearchTree
     @group_count += 1
 
     if current_node.left != nil
-      node_group_count(current_node.left, @group_count)
+      node_group_count(current_node.left, false)
     end
 
     if current_node.right != nil
-      node_group_count(current_node.right, @group_count)
+      node_group_count(current_node.right, false)
     end
 
     @group_count
 
   end # end node_group_count
+
+  def leaves(current_node = @root, first_run = true)
+
+    if first_run == true
+      @leaves_count = 0
+      first_run = false
+    end
+
+    if current_node.left == nil && current_node.right == nil
+      @leaves_count += 1
+    end
+
+    leaves(current_node.left, false) if current_node.left != nil
+    leaves(current_node.right, false) if current_node.right != nil
+
+    @leaves_count
+
+  end
 
 end # end BinarySearchTree

@@ -335,4 +335,40 @@ end
     assert_equal tree.health(4), []
   end
 
+  ### leaves
+
+  def test_leaves_root_only
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+
+    assert_equal tree.leaves, 1
+  end
+
+  def test_a_couple_leaves
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+    tree.insert_node(45, "avitar")
+    tree.insert_node(55, "dig")
+
+    assert_equal tree.leaves, 2
+  end
+
+  def test_bunch_o_leaves
+    tree = BinarySearchTree.new
+    tree.insert_node(50, "james bond")
+    tree.insert_node(45, "avitar")
+    tree.insert_node(55, "dig")
+    tree.insert_node(60, "the hobbit")
+    tree.insert_node(11, "star wars")
+    tree.insert_node(85, "mad max")
+    tree.insert_node(53, "i robot")
+    tree.insert_node(12, "sharknado")
+    tree.insert_node(54, "fire walk with me")
+    tree.insert_node(59, "cry baby")
+    tree.insert_node(47, "the shining")
+    tree.insert_node(46, "momento")
+
+    assert_equal tree.leaves, 5
+  end
+
 end # end tests
