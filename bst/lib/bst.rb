@@ -161,6 +161,7 @@ class BinarySearchTree
     @sorted
 
   end # end sort
+  
 
   def load(input_file)
     CSV.foreach(input_file) do |line|
@@ -173,11 +174,7 @@ class BinarySearchTree
 
     # this block resets the @health array every time the method is called.
     # that way we can run multiple tests on it at once.
-    if first_run == true
-      @health = []
-      first_run = false
-    end
-
+    @health = [] if first_run
 
     if current_depth == input_depth
       group_count = node_group_count(current_node)
@@ -195,8 +192,8 @@ class BinarySearchTree
   # gets a count of all the nodes below the input node
   # used for health method
   def node_group_count(current_node, first_run = true)
-    @group_count = 0 if first_run == true
-    first_run = false
+
+    @group_count = 0 if first_run
 
     @group_count += 1
 
@@ -212,12 +209,10 @@ class BinarySearchTree
 
   end # end node_group_count
 
+
   def leaves(current_node = @root, first_run = true)
 
-    if first_run == true
-      @leaves_count = 0
-      first_run = false
-    end
+    @leaves_count = 0 if first_run
 
     if current_node.left == nil && current_node.right == nil
       @leaves_count += 1
@@ -228,6 +223,103 @@ class BinarySearchTree
 
     @leaves_count
 
-  end
+  end # end leaves
+
+
+  def height(current_node = @root, current_depth = 0, first_run = true)
+
+    @deepest = 0 if first_run
+
+    @deepest = current_depth if current_depth > @deepest
+
+    height(current_node.left, current_depth + 1, false) if current_node.left != nil
+    height(current_node.right, current_depth + 1, false) if current_node.right != nil
+
+    @deepest
+
+  end # end height
+
+
+  def delete(marked, current_node = @root, parent = nil ,moving_left = nil)
+
+    # return nil if the node doesn't exist
+    return nil if current_node == nil
+
+    # need a special case to delete at the root
+    # because @root needs to be resest and
+    # we don't approach the node from the left or right
+    if current_node.score == marked && parent == nil
+
+      # if nodes exist on both the left and right
+      # move the right side to the bottom right of the left tree
+      # and set the top left node to the root
+      if current_node.left != nil && current_node.right != nil
+        deepest_right_node = deepest_right(current_node.left)
+        deepest_right_node.right = current_node.right
+        @root = current_node.left
+      end
+
+      # if nodes only exist on the left or right, just change the root
+      if current_node.left != nil && current_node.right == nil
+        @root = current_node.left
+      end
+
+      if current_node.left == nil && current_node.right != nil
+        @root = current_node.right
+      end
+
+      # if the root is all that exists, delete it
+      if current_node.left == nil && current_node.right == nil
+        @root = nil
+      end
+    end # end root case
+
+    # when the marked node is found and it is not the root
+    if current_node.score == marked && parent != nil
+
+      # if there is a node on the left, move it up
+      if current_node.left != nil
+        parent.left = current_node.left if moving_left
+        parent.right = current_node.left if moving_left == false
+
+          # if there's a node on the right as well, need to put it
+          # on the far right of the tree being moved in from the left
+          if current_node.right != nil
+            # find deepest right of current_node.left
+            # that.right = current_node.right
+            deepest_right_node = deepest_right(current_node.left)
+            deepest_right_node.right = current_node.right
+          end
+
+      # if there's nothing on the left, just move the right up
+      elsif current_node.right != nil
+        parent.left = current_node.right if moving_left
+        parent.right = current_node.right if moving_left == false
+
+      # if the node is a leaf, tell it's parent to forget about it
+      else
+        parent.left = nil if moving_left
+        parent.right = nil if moving_left == false
+      end
+    end
+
+      # recursivly search until the marked node is found
+      delete(marked, current_node.left, current_node, true) if current_node.left != nil && marked < current_node.score
+      delete(marked, current_node.right, current_node, false) if current_node.right != nil && marked > current_node.score
+
+      marked
+
+  end # end delete
+
+  # recursivly move to the right until the end
+  def deepest_right(current_node)
+
+    @deepest_right_node = current_node
+
+    deepest_right(current_node.right) if current_node.right != nil
+
+    @deepest_right_node
+
+  end # end deepest_right
 
 end # end BinarySearchTree

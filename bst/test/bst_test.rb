@@ -371,4 +371,146 @@ end
     assert_equal tree.leaves, 5
   end
 
+  ### height
+
+   def test_height_at_node
+     tree = BinarySearchTree.new
+     tree.insert_node(50, "james bond")
+
+     assert_equal tree.height, 0
+   end
+
+   def test_sooo_deeeeeep
+     tree = BinarySearchTree.new
+     tree.insert_node(50, "james bond")
+     tree.insert_node(45, "avitar")
+     tree.insert_node(55, "dig")
+     tree.insert_node(60, "the hobbit")
+     tree.insert_node(11, "star wars")
+     tree.insert_node(85, "mad max")
+     tree.insert_node(53, "i robot")
+     tree.insert_node(12, "sharknado")
+     tree.insert_node(54, "fire walk with me")
+     tree.insert_node(59, "cry baby")
+     tree.insert_node(47, "the shining")
+     tree.insert_node(46, "momento")
+
+     assert_equal tree.height, 3
+   end
+
+    def test_delete_at_root
+      tree = BinarySearchTree.new
+      tree.insert_node(50, "a")
+      tree.insert_node(40, "b")
+      tree.insert_node(60, "c")
+      tree.insert_node(55, "d")
+      tree.insert_node(45, "e")
+      tree.insert_node(30, "f")
+      tree.insert_node(70, "g")
+      tree.insert_node(65, "h")
+      tree.insert_node(35, "i")
+      tree.insert_node(44, "j")
+      tree.insert_node(46, "k")
+      tree.insert_node(54, "l")
+      tree.insert_node(56, "m")
+      tree.insert_node(20, "n")
+      tree.insert_node(80, "o")
+      tree.delete(50)
+
+      assert_equal tree.sort.length, 14
+      assert_equal tree.root.right.score, 45
+      assert_equal tree.root.right.right.right.score, 60
+      assert_equal tree.root.left.right.score, 35
+    end
+
+    def test_delete_root_special_case
+      tree = BinarySearchTree.new
+      tree.insert_node(50, "a")
+      tree.insert_node(40, "b")
+      tree.delete(50)
+
+      assert_equal tree.sort.length, 1
+      assert_equal tree.root.score, 40
+    end
+
+    def test_delete_special_case_two
+      tree = BinarySearchTree.new
+      tree.insert_node(50, "a")
+      tree.insert_node(60, "c")
+      tree.delete(50)
+
+      assert_equal tree.sort.length, 1
+      assert_equal tree.root.score, 60
+    end
+
+    def test_deepest_right
+      tree = BinarySearchTree.new
+      tree.insert_node(50, "james bond")
+      tree.insert_node(45, "avitar")
+      tree.insert_node(55, "dig")
+      tree.insert_node(60, "the hobbit")
+      tree.insert_node(11, "star wars")
+      tree.insert_node(85, "mad max")
+      tree.insert_node(53, "i robot")
+      tree.insert_node(12, "sharknado")
+      tree.insert_node(54, "fire walk with me")
+      tree.insert_node(59, "cry baby")
+      tree.insert_node(47, "the shining")
+      tree.insert_node(46, "momento")
+
+      assert_equal tree.deepest_right(tree.root), tree.root.right.right.right
+    end
+
+    def test_try_to_break_delete
+      tree = BinarySearchTree.new
+      tree.insert_node(50, "a")
+      tree.insert_node(40, "b")
+      tree.insert_node(60, "c")
+      tree.insert_node(55, "d")
+      tree.insert_node(45, "e")
+      tree.insert_node(30, "f")
+      tree.insert_node(70, "g")
+      tree.insert_node(65, "h")
+      tree.insert_node(35, "i")
+      tree.insert_node(44, "j")
+      tree.insert_node(46, "k")
+      tree.insert_node(54, "l")
+      tree.insert_node(56, "m")
+      tree.insert_node(20, "n")
+      tree.insert_node(80, "o")
+      tree.delete(40)
+
+      assert_equal tree.sort.length, 14
+      assert_equal tree.root.left.score, 30
+      assert_equal tree.root.left.right.score, 35
+      assert_equal tree.root.left.right.right.score, 45
+      assert_equal tree.root.left.right.right.left.score, 44
+    end
+
+    def test_try_to_break_delete_part_two
+      tree = BinarySearchTree.new
+      tree.insert_node(50, "a")
+      tree.insert_node(40, "b")
+      tree.insert_node(60, "c")
+      tree.insert_node(55, "d")
+      tree.insert_node(45, "e")
+      tree.insert_node(30, "f")
+      tree.insert_node(70, "g")
+      tree.insert_node(65, "h")
+      tree.insert_node(35, "i")
+      tree.insert_node(44, "j")
+      tree.insert_node(46, "k")
+      tree.insert_node(54, "l")
+      tree.insert_node(56, "m")
+      tree.insert_node(20, "n")
+      tree.insert_node(80, "o")
+      tree.delete(60)
+
+      assert_equal tree.sort.length, 14
+      assert_equal tree.root.right.score, 55
+      assert_equal tree.root.right.right.score, 56
+      assert_equal tree.root.right.right.right.score, 70
+      assert_equal tree.root.right.left.score, 54
+    end
+
 end # end tests
