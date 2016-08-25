@@ -151,7 +151,7 @@ class BinarySearchTree
       end
 
     else
-      @sorted << current_node.data
+      @sorted << current_node.data if @sorted.include?(current_node.data) == false
     end
 
     if current_node.right != nil && @sorted.include?(current_node.right.data) == false
@@ -161,11 +161,11 @@ class BinarySearchTree
     @sorted
 
   end # end sort
-  
+
 
   def load(input_file)
     CSV.foreach(input_file) do |line|
-      self.insert_node(line[0].to_i, line[1].strip)
+      self.insert_node(line[0].to_i, line[1..-1].join(",").strip)
     end
   end
 

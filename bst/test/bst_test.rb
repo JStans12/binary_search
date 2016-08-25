@@ -284,13 +284,9 @@ end
   def test_load
     tree = BinarySearchTree.new
     tree.load("test/movies.txt")
+    tree.sort
 
-    assert_equal tree.root.data, {"Hannibal Buress: Comedy Camisado" => 34}
-    assert_equal tree.root.right.data, {"Meet My Valentine" => 63}
-    assert_equal tree.root.left.data, {"Experimenter" => 22}
-    assert_equal tree.root.right.right.data, {"French Dirty" => 84}
-    assert_equal tree.root.right.left.data, {"Love" => 41}
-    assert_equal tree.root.left.left.data, {"I Love You Phillip Morris" => 10}
+    assert_equal tree.sort.length, 99
   end
 
   ### health
@@ -329,9 +325,9 @@ end
     tree.insert_node(46, "momento")
 
     assert_equal tree.health(0), [[50,12,100]]
-    assert_equal tree.health(1), [[45, 5, 38], [55, 6, 42]]
-    assert_equal tree.health(2), [[11, 2, 13], [47, 2, 12], [53, 2, 11], [60, 3, 16]]
-    assert_equal tree.health(3), [[12, 1, 5], [46, 1, 5], [54, 1, 4], [59, 1, 4], [85, 1, 4]]
+    assert_equal tree.health(1), [[45, 5, 41], [55, 6, 50]]
+    assert_equal tree.health(2), [[11, 2, 16], [47, 2, 16], [53, 2, 16], [60, 3, 25]]
+    assert_equal tree.health(3), [[12, 1, 8], [46, 1, 8], [54, 1, 8], [59, 1, 8], [85, 1, 8]]
     assert_equal tree.health(4), []
   end
 
